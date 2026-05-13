@@ -1,7 +1,7 @@
 import express from "express";
 import ticketModel from "../model/ticketModel.js";
 import authMiddleware from "../middleware/authMiddleware.js";
-import { sendMail, sendAdminMail } from "../helper/sendMail.js"
+import { sendMail, sendAdminMail, sendStatusUpdateMail } from "../helper/sendMail.js"
 import userModel from "../model/userModel.js";
 
 const router = express.Router();
@@ -23,7 +23,7 @@ router.post("/raiseTickets", authMiddleware, async (req, res) => {
         const createdTicket = await ticketModel.create({ userId: userId, name, email, subject, message });
 
         await sendMail(email, name, subject, message);
-        await sendAdminMail(email,name,subject, message);
+        await sendAdminMail(email, name, subject, message);
 
         return res.status(200).json({ success: true, message: "Ticket raised successfully", result: createdTicket });
     } catch (error) {
@@ -33,7 +33,7 @@ router.post("/raiseTickets", authMiddleware, async (req, res) => {
 
 router.get("/tickets", authMiddleware, async (req, res) => {
     try {
-        const tickets = await ticketModel.find().sort({createdAt: -1});
+        const tickets = await ticketModel.find().sort({ createdAt: -1 });
         return res.status(200).json({ success: true, result: tickets });
     } catch (error) {
         return res.status(500).json({ success: false, message: "Failed to fetch tickets" });
@@ -41,31 +41,49 @@ router.get("/tickets", authMiddleware, async (req, res) => {
 });
 
 router.put("/tickets/:id", authMiddleware, async (req, res) => {
+
     try {
+
         const { status } = req.body;
         const ticketId = req.params.id;
 
-        const updatedTicket = await ticketModel.findByIdAndUpdate(
-            ticketId,
-            { status },
-            { new: true, runValidators: true }
-        );
+        const updatedTicket = await ticketModel
+            .findByIdAndUpdate(
+                ticketId,
+                { status },
+                { returnDocument: 'after', runValidators: true }
+            )
+            .populate("userId");
 
         if (!updatedTicket) {
-            return res.status(404).json({ success: false, message: "Ticket not found" });
+            return res.status(404).json({
+                success: false,
+                message: "Ticket not found"
+            });
         }
 
-        
+        await sendStatusUpdateMail(
+            updatedTicket.userId.name,
+            updatedTicket.userId.email,
+            updatedTicket.subject,
+            updatedTicket.message,
+            updatedTicket.status
+        );
 
         return res.status(200).json({
             success: true,
             message: "Ticket updated successfully",
             result: updatedTicket
         });
+
     } catch (error) {
-        return res.status(500).json({ success: false, message: "Internal Server Error", result: error.message });
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            result: error.message
+        });
     }
-})
+});
 
 router.delete("/tickets/:id", authMiddleware, async (req, res) => {
     try {

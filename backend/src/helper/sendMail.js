@@ -6,6 +6,8 @@ import { sendConfirmEmailTemplate } from "../template/sendConfirmEmailTemplate.j
 
 import { sendTicketRaisedEmailToAdminTemplate } from "../template/sendTicketRaisedEmailToAdminTemplate.js";
 
+import { sendTicketStatusTemplate } from "../template/sendTicketStatusTemplate.js"
+
 dotenv.config();
 
 const sendMail = async (email, name, subject, message) => {
@@ -65,33 +67,34 @@ const sendAdminMail = async (email, name, subject, message) => {
     }
 };
 
-const sendAdminMail = async (email, name, subject, message) => {
+const sendStatusUpdateMail = async (name, email, subject, message, status) => {
     try {
 
         const template =
-            typeof sendTicketRaisedEmailToAdminTemplate === "function"
-                ? sendTicketRaisedEmailToAdminTemplate()
-                : String(sendTicketRaisedEmailToAdminTemplate);
+            typeof sendTicketStatusTemplate === "function"
+                ? sendTicketStatusTemplate()
+                : String(sendTicketStatusTemplate);
 
         const html = template
             .replace("{name}", name)
             .replace("{email}", email)
             .replace("{subject}", subject)
-            .replace("{message}", message);
+            .replace("{message}", message)
+            .replace("{status}", status);
 
         const info = await transporter.sendMail({
             from: `"Support System" <${process.env.EMAIL_USER}>`,
-            to: process.env.ADMIN_EMAIL,
-            subject: `New Ticket Raised - ${subject}`,
-            text: message,
+            to: email,
+            subject: `Ticket Status Updated - ${subject}`,
+            text: `Your ticket status is now: ${status}\n\n${message}`,
             html,
         });
 
-        console.log("Admin mail sent:", info.messageId);
+        console.log("Status update mail sent to user:", info.messageId);
 
     } catch (err) {
-        console.error("Error while sending admin mail:", err);
+        console.error("Error while sending status update mail:", err);
     }
 };
 
-export { sendMail, sendAdminMail };
+export { sendMail, sendAdminMail, sendStatusUpdateMail };
