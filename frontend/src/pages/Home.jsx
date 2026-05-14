@@ -90,6 +90,11 @@ const Home = () => {
           </p>
         </div>
       </main>
+      <footer>
+        <section>
+          <h1></h1>
+        </section>
+      </footer>
 
       {/* Admin Login Modal */}
       {openAdminLogin && <AdminLogin onClose={onClose} />}

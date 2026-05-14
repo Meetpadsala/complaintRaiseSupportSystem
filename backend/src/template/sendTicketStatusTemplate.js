@@ -20,10 +20,6 @@ export const TICKET_STATUS_TEMPLATE = `
     <h1 style="margin: 0; font-size: 26px;">
       🎫 Support Ticket Update
     </h1>
-
-    <p style="margin-top: 8px; font-size: 14px;">
-      {actionText}
-    </p>
   </div>
 
   <!-- Content -->
@@ -95,30 +91,6 @@ export const TICKET_STATUS_TEMPLATE = `
       border-radius: 8px;
       border-left: 4px solid #2563eb;
     ">
-      <p style="
-        margin: 0;
-        font-size: 14px;
-        color: #1e3a8a;
-      ">
-        {extraMessage}
-      </p>
-    </div>
-
-    <!-- CTA -->
-    <div style="text-align: center; margin-top: 30px;">
-      <a href="#"
-        style="
-          display: inline-block;
-          background-color: #2563eb;
-          color: #ffffff;
-          padding: 14px 26px;
-          text-decoration: none;
-          border-radius: 8px;
-          font-size: 15px;
-          font-weight: bold;
-        ">
-        Contact Support →
-      </a>
     </div>
 
   </div>

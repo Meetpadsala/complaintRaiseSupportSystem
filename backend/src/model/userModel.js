@@ -1,13 +1,28 @@
-import mongoose from "mongoose";
+const userSchema = new mongoose.Schema(
+  {
+    fullname: String,
 
-const userSchema = mongoose.Schema({
-    name: String,
-    email: String,
+    email: {
+      type: String,
+      unique: true,
+    },
+
     password: String,
-    ticket: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Ticket"
-    }
-})
+    
+    phone: String,
 
-export default mongoose.model("user", userSchema)
+    address: String,
+
+    role: {
+      type: String,
+      enum: ["user", "employee", "admin"],
+      default: "user",
+    },
+
+    // only for employee
+    service: [String],
+  },
+  {
+    timestamps: true,
+  }
+);
