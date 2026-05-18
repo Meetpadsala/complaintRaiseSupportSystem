@@ -19,15 +19,7 @@ import {
 } from "@/components/ui/sidebar"
 import { CaretUpDownIcon, PlusIcon } from "@phosphor-icons/react"
 
-export function TeamSwitcher({
-  teams,
-}: {
-  teams: {
-    name: string
-    logo: React.ReactNode
-    plan: string
-  }[]
-}) {
+export function TeamSwitcher({ teams }) {
   const { isMobile } = useSidebar()
   const [activeTeam, setActiveTeam] = React.useState(teams[0])
 

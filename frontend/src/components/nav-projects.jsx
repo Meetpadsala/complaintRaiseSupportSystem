@@ -18,15 +18,7 @@ import {
 } from "@/components/ui/sidebar"
 import { DotsThreeOutlineIcon, FolderIcon, ShareFatIcon, TrashIcon } from "@phosphor-icons/react"
 
-export function NavProjects({
-  projects,
-}: {
-  projects: {
-    name: string
-    url: string
-    icon: React.ReactNode
-  }[]
-}) {
+export function NavProjects({ projects }) {
   const { isMobile } = useSidebar()
 
   return (
