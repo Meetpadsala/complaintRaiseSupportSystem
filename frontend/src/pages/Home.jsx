@@ -10,6 +10,7 @@ import {
   Users,
   ShieldCheck,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [theme, setTheme] = useState(false);
@@ -112,6 +113,7 @@ const Home = () => {
             >
               Admin Login
             </button>
+            <Link to={"/Page"}> userDashboard</Link>
           </div>
         </header>
 

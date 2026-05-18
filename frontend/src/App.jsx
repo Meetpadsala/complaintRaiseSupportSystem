@@ -6,6 +6,9 @@ import UserDashboard from "./pages/UserDashboard";
 import ResetPassword from "./pages/ResetPassword";
 import { Routes, Route } from "react-router-dom";
 
+// this is for the user pages direction
+import UserDashboardPage from "./pages/user/dashboard/Page";
+
 function App() {
   return (
     <>
@@ -13,6 +16,7 @@ function App() {
         <Route path={"/"} element={<Home />} />
         <Route path={"/contact"} element={<Contact />} />
         <Route path={"/dashboard"} element={<Dashboard />} />
+        <Route path={"/Page"} element={<UserDashboardPage />} />
         <Route path={"/userDashboard"} element={<UserDashboard />} />
         <Route path={"/reset-password"} element={<ResetPassword />} />
       </Routes>
