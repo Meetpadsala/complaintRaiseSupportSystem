@@ -8,6 +8,9 @@ import { Routes, Route } from "react-router-dom";
 
 // this is for the user pages direction
 import UserDashboardPage from "./pages/user/dashboard/Page";
+import UserInprogressPage from "./pages/user/in-progress/Page"
+import UserPendingPage from "./pages/user/pending/Page"
+import UserRejectedPage from "./pages/user/rejected/Page"
 
 function App() {
   return (
@@ -16,7 +19,13 @@ function App() {
         <Route path={"/"} element={<Home />} />
         <Route path={"/contact"} element={<Contact />} />
         <Route path={"/dashboard"} element={<Dashboard />} />
-        <Route path={"/Page"} element={<UserDashboardPage />} />
+
+        {/* this is for user dashboard blocks */}
+        <Route path={"/User/Dashboard"} element={<UserDashboardPage />} />
+        <Route path={"/User/Inprogress"} element={<UserInprogressPage />} />
+        <Route path={"/User/Pending"} element={<UserPendingPage />} />
+        <Route path={"/User/Rejected"} element={<UserRejectedPage />} />
+
         <Route path={"/userDashboard"} element={<UserDashboard />} />
         <Route path={"/reset-password"} element={<ResetPassword />} />
       </Routes>

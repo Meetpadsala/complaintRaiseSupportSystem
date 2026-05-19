@@ -1,5 +1,4 @@
 "use client";
-
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
@@ -23,7 +22,9 @@ import {
   ChartPieIcon,
   MapTrifoldIcon,
 } from "@phosphor-icons/react";
-
+import { ShieldAlert } from "lucide-react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import {userLogout,getRaisedComplaint} from "../"
 // This is sample data.
 const data = {
   user: {
@@ -33,15 +34,15 @@ const data = {
   },
   teams: [
     {
-      name: "Acme Inc",
-      logo: <RowsIcon />,
-      plan: "Enterprise",
+      name: "Support System",
+      logo: <ShieldAlert />,
+      // plan: "Enterprise",
     },
   ],
   navMain: [
     {
       title: "All Complaint",
-      url: "/Page",
+      url: "/User/Dashboard",
       icon: <TerminalIcon />,
       isActive: true,
       // items: [
@@ -61,7 +62,7 @@ const data = {
     },
     {
       title: "Pending",
-      url: "#",
+      url: "/User/Pending",
       icon: <RobotIcon />,
       // items: [
       //   {
@@ -80,7 +81,7 @@ const data = {
     },
     {
       title: "Rejected",
-      url: "#",
+      url: "/User/Rejected",
       icon: <BookOpenIcon />,
       // items: [
       //   {
@@ -108,7 +109,7 @@ const data = {
       items: [
         {
           title: "General",
-          url: "#",
+          url: "/User/Inprogress",
         },
         {
           title: "Team",
@@ -123,7 +124,8 @@ const data = {
           url: "#",
         },
       ],
-    },  {
+    },
+    {
       title: "Completed ",
       url: "#",
       icon: <GearIcon />,

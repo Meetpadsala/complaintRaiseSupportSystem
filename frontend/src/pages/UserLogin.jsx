@@ -37,7 +37,7 @@ const UserLogin = ({ closeUserLogin, theme }) => {
     mutationFn: userLogin,
     onSuccess: () => {
       toast.success("Login successful");
-      navigate("/userDashboard");
+      navigate("/User/Dashboard");
     },
     onError: (err) => {
       setError(err.response?.data?.message || err.message || "Login failed");

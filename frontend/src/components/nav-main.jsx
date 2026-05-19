@@ -3,6 +3,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import { Link } from "react-router-dom"
 import {
   SidebarGroup,
   // SidebarGroupLabel,
@@ -29,17 +30,18 @@ export function NavMain({ items }) {
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
-                  {item.icon}
-                  <span>{item.title}</span>
-                  {/* <CaretRightIcon className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" /> */}
+                <SidebarMenuButton asChild tooltip={item.title}>
+                  <Link to={item.url} className="flex items-center gap-2 w-full">
+                    {item.icon}
+                    <span>{item.title}</span>
+                  </Link>
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
                 {/* <SidebarMenuSub>
-                  {item.items?.map((subItem) => (
+                  {item.item  s?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
+               b       <SidebarMenuSubButton asChild>
                         <a href={subItem.url}>
                           <span>{subItem.title}</span>
                         </a>
