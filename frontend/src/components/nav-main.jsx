@@ -5,20 +5,20 @@ import {
 } from "@/components/ui/collapsible"
 import {
   SidebarGroup,
-  SidebarGroupLabel,
+  // SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
+  // SidebarMenuSub,
+  // SidebarMenuSubButton,
+  // SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
-import { CaretRightIcon } from "@phosphor-icons/react"
+// import { CaretRightIcon } from "@phosphor-icons/react"
 
 export function NavMain({ items }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      {/* <SidebarGroupLabel>Platform</SidebarGroupLabel> */}
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible
@@ -32,11 +32,11 @@ export function NavMain({ items }) {
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon}
                   <span>{item.title}</span>
-                  <CaretRightIcon className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  {/* <CaretRightIcon className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" /> */}
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <SidebarMenuSub>
+                {/* <SidebarMenuSub>
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
@@ -45,8 +45,8 @@ export function NavMain({ items }) {
                         </a>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
+                  ))} 
+                </SidebarMenuSub> */}
               </CollapsibleContent>
             </SidebarMenuItem>
           </Collapsible>

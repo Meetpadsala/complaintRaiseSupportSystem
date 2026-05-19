@@ -5,10 +5,10 @@ import * as React from "react"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
+  // DropdownMenuItem,
+  // DropdownMenuLabel,
+  // DropdownMenuSeparator,
+  // DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
@@ -17,7 +17,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { CaretUpDownIcon, PlusIcon } from "@phosphor-icons/react"
+// import { CaretUpDownIcon, PlusIcon } from "@phosphor-icons/react"
 
 export function TeamSwitcher({ teams }) {
   const { isMobile } = useSidebar()
@@ -41,9 +41,9 @@ export function TeamSwitcher({ teams }) {
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{activeTeam.name}</span>
-                <span className="truncate text-xs">{activeTeam.plan}</span>
+                {/* <span className="truncate text-xs">{activeTeam.plan}</span> */}
               </div>
-              <CaretUpDownIcon className="ml-auto" />
+              {/* <CaretUpDownIcon className="ml-auto" /> */}
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -52,10 +52,10 @@ export function TeamSwitcher({ teams }) {
             side={isMobile ? "bottom" : "right"}
             sideOffset={4}
           >
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
+            {/* <DropdownMenuLabel className="text-xs text-muted-foreground">
               Teams
-            </DropdownMenuLabel>
-            {teams.map((team, index) => (
+            </DropdownMenuLabel> */}
+            {/* {teams.map((team, index) => (
               <DropdownMenuItem
                 key={team.name}
                 onClick={() => setActiveTeam(team)}
@@ -68,13 +68,13 @@ export function TeamSwitcher({ teams }) {
                 <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
               </DropdownMenuItem>
             ))}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="gap-2 p-2">
+            <DropdownMenuSeparator /> */}
+            {/* <DropdownMenuItem className="gap-2 p-2">
               <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
                 <PlusIcon className="size-4" />
               </div>
               <div className="font-medium text-muted-foreground">Add team</div>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

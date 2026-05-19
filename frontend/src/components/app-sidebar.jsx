@@ -1,17 +1,28 @@
-"use client"
+"use client";
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
+import { NavMain } from "@/components/nav-main";
+import { NavProjects } from "@/components/nav-projects";
+import { NavUser } from "@/components/nav-user";
+import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { RowsIcon, WaveformIcon, CommandIcon, TerminalIcon, RobotIcon, BookOpenIcon, GearIcon, CropIcon, ChartPieIcon, MapTrifoldIcon } from "@phosphor-icons/react"
+} from "@/components/ui/sidebar";
+import {
+  RowsIcon,
+  WaveformIcon,
+  CommandIcon,
+  TerminalIcon,
+  RobotIcon,
+  BookOpenIcon,
+  GearIcon,
+  CropIcon,
+  ChartPieIcon,
+  MapTrifoldIcon,
+} from "@phosphor-icons/react";
 
 // This is sample data.
 const data = {
@@ -23,108 +34,99 @@ const data = {
   teams: [
     {
       name: "Acme Inc",
-      logo: (
-        <RowsIcon
-        />
-      ),
+      logo: <RowsIcon />,
       plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: (
-        <WaveformIcon
-        />
-      ),
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: (
-        <CommandIcon
-        />
-      ),
-      plan: "Free",
     },
   ],
   navMain: [
     {
-      title: "Playground",
+      title: "All Complaint",
       url: "/Page",
-      icon: (
-        <TerminalIcon
-        />
-      ),
+      icon: <TerminalIcon />,
       isActive: true,
+      // items: [
+      //   {
+      //     title: "History",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Starred",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Settings",
+      //     url: "#",
+      //   },
+      // ],
+    },
+    {
+      title: "Pending",
+      url: "#",
+      icon: <RobotIcon />,
+      // items: [
+      //   {
+      //     title: "Genesis",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Explorer",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Quantum",
+      //     url: "#",
+      //   },
+      // ],
+    },
+    {
+      title: "Rejected",
+      url: "#",
+      icon: <BookOpenIcon />,
+      // items: [
+      //   {
+      //     title: "Introduction",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Get Started",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Tutorials",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Changelog",
+      //     url: "#",
+      //   },
+      // ],
+    },
+    {
+      title: "In-progress",
+      url: "#",
+      icon: <GearIcon />,
       items: [
         {
-          title: "History",
+          title: "General",
           url: "#",
         },
         {
-          title: "Starred",
+          title: "Team",
           url: "#",
         },
         {
-          title: "Settings",
+          title: "Billing",
+          url: "#",
+        },
+        {
+          title: "Limits",
           url: "#",
         },
       ],
-    },
-    {
-      title: "Models",
+    },  {
+      title: "Completed ",
       url: "#",
-      icon: (
-        <RobotIcon
-        />
-      ),
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: (
-        <BookOpenIcon
-        />
-      ),
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: (
-        <GearIcon
-        />
-      ),
+      icon: <GearIcon />,
       items: [
         {
           title: "General",
@@ -149,29 +151,20 @@ const data = {
     {
       name: "Design Engineering",
       url: "#",
-      icon: (
-        <CropIcon
-        />
-      ),
+      icon: <CropIcon />,
     },
     {
       name: "Sales & Marketing",
       url: "#",
-      icon: (
-        <ChartPieIcon
-        />
-      ),
+      icon: <ChartPieIcon />,
     },
     {
       name: "Travel",
       url: "#",
-      icon: (
-        <MapTrifoldIcon
-        />
-      ),
+      icon: <MapTrifoldIcon />,
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }) {
   return (
@@ -181,12 +174,12 @@ export function AppSidebar({ ...props }) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
