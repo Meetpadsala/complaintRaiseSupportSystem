@@ -15,7 +15,7 @@ const AdminLogin = ({ onClose }) => {
     mutationFn: adminLogin,
     onSuccess: () => {
       toast.success("login successfull");
-      navigate("/dashboard");
+      navigate("/Admin/Dashboard");
     },
     onError: (error) => {
       console.log("Error", error);

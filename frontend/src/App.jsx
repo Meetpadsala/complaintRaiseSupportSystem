@@ -10,6 +10,11 @@ import UserInprogressPage from "./pages/user/in-progress/Page";
 import UserPendingPage from "./pages/user/pending/Page";
 import UserRejectedPage from "./pages/user/rejected/Page";
 
+// this is for the admin pages direction
+import AdminDashboardPage from "./pages/admin/dashboard/Page";
+import AdminEmployeePage from "./pages/admin/employee/Page";
+import AdminAssignTaskPage from "./pages/admin/assign-task/Page";
+
 function App() {
   return (
     <>
@@ -25,7 +30,9 @@ function App() {
         <Route path={"/User/Rejected"} element={<UserRejectedPage />} />
 
         {/* this is for admin dashboard blocks */}
-        
+        <Route path={"/Admin/Dashboard"} element={<AdminDashboardPage />} />
+        <Route path={"/Admin/Employee"} element={<AdminEmployeePage />} />
+        <Route path={"/Admin/Assigntask"} element={<AdminAssignTaskPage />} />
       </Routes>
     </>
   );

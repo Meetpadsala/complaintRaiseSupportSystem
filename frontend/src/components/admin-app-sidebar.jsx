@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
-import {toast} from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
@@ -44,8 +44,8 @@ const data = {
   ],
   navMain: [
     {
-      title: "All Complaint",
-      url: "/User/Dashboard",
+      title: "Dashboard",
+      url: "/Admin/Dashboard",
       icon: <TerminalIcon />,
       isActive: true,
       // items: [
@@ -64,8 +64,8 @@ const data = {
       // ],
     },
     {
-      title: "Pending",
-      url: "/User/Pending",
+      title: "Employees",
+      url: "/Admin/Employee",
       icon: <RobotIcon />,
       // items: [
       //   {
@@ -83,8 +83,8 @@ const data = {
       // ],
     },
     {
-      title: "Rejected",
-      url: "/User/Rejected",
+      title: "AssignTask",
+      url: "/Admin/Assigntask",
       icon: <BookOpenIcon />,
       // items: [
       //   {
@@ -104,52 +104,6 @@ const data = {
       //     url: "#",
       //   },
       // ],
-    },
-    {
-      title: "In-progress",
-      url: "#",
-      icon: <GearIcon />,
-      items: [
-        {
-          title: "General",
-          url: "/User/Inprogress",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Completed ",
-      url: "#",
-      icon: <GearIcon />,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
     },
   ],
   projects: [
@@ -202,7 +156,7 @@ export function AppSidebar({ ...props }) {
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} onLogout={()=> logoutMutation.mutate()} />
+        <NavUser user={data.user} onLogout={() => logoutMutation.mutate()} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

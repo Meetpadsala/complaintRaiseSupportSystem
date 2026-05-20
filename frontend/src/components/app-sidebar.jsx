@@ -44,7 +44,7 @@ const data = {
   ],
   navMain: [
     {
-      title: "All Complaint",
+      title: "Dashboard",
       url: "/User/Dashboard",
       icon: <TerminalIcon />,
       isActive: true,
@@ -64,7 +64,7 @@ const data = {
       // ],
     },
     {
-      title: "Pending",
+      title: "Raise Complaints",
       url: "/User/Pending",
       icon: <RobotIcon />,
       // items: [

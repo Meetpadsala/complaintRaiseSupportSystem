@@ -28,23 +28,6 @@ export default function Page() {
     setTheme(!theme);
   };
 
-  useEffect(() => {
-    const root = document.documentElement;
-    const body = document.body;
-
-    if (theme) {
-      root.style.backgroundColor = "#000000";
-      body.style.backgroundColor = "#000000";
-      body.style.color = "#ffffff";
-      root.classList.add("dark");
-    } else {
-      root.style.backgroundColor = "#ffffff";
-      body.style.backgroundColor = "#ffffff";
-      body.style.color = "#000000";
-      root.classList.remove("dark");
-    }
-  }, [theme]);
-
   const { data } = useQuery({
     queryKey: ["showRaisedTicked"],
     queryFn: getRaisedComplaint,
@@ -122,42 +105,7 @@ export default function Page() {
               </button>
             </div>
             <div className="flex gap-5 flex-wrap">
-              <article className="">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {data?.result?.map((ticket) => (
-                    <div
-                      key={ticket._id}
-                      className={`rounded-lg shadow-sm hover:shadow-lg transition p-6 `}
-                    >
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h4 className="font-semibold text-lg mb-1">
-                            {ticket.subject}
-                          </h4>
-                          <p className="text-sm opacity-80">
-                            complaintPerson: {ticket.name}
-                          </p>
-                        </div>
-                        <span
-                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                            ticket.status === "Pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : ticket.status === "Resolved"
-                                ? "bg-green-100 text-green-800"
-                                : "bg-gray-100 text-gray-800"
-                          }`}
-                        >
-                          {ticket.status}
-                        </span>
-                      </div>
-                      <p className="mt-3 text-sm leading-relaxed whitespace-pre-line opacity-90">
-                        {ticket.message}
-                      </p>
-                      {/* <p>{ticket.)</p> */}
-                    </div>
-                  ))}
-                </div>
-              </article>
+             
             </div>
           </div>
         </SidebarInset>
