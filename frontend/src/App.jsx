@@ -11,8 +11,11 @@ import UserWorkServicePage from "./pages/user/work-service/Page";
 
 // this is for the admin pages direction
 import AdminDashboardPage from "./pages/admin/dashboard/Page";
-import AdminEmployeePage from "./pages/admin/employee/Page";
 import AdminAssignTaskPage from "./pages/admin/assign-task/Page";
+import AdminEmployeePage from "./pages/admin/employee/Page";
+import AdminUsersPage from "./pages/admin/user/Page";
+import AdminAddServicePage from "./pages/admin/add-service/Page";
+
 
 function App() {
   return (
@@ -34,6 +37,8 @@ function App() {
         <Route path={"/Admin/Dashboard"} element={<AdminDashboardPage />} />
         <Route path={"/Admin/Employee"} element={<AdminEmployeePage />} />
         <Route path={"/Admin/Assigntask"} element={<AdminAssignTaskPage />} />
+        <Route path={"/Admin/User"} element={<AdminUsersPage />} />
+        <Route path={"/Admin/Addservice"} element={<AdminAddServicePage />} />
       </Routes>
     </>
   );

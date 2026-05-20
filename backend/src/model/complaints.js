@@ -34,6 +34,11 @@ const complaintSchema = new mongoose.Schema(
       required: true,
     },
 
+    raisedDate: {
+      type: Date,
+      required: true,
+    },
+
     status: {
       type: String,
       enum: [

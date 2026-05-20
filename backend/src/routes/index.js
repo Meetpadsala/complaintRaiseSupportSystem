@@ -23,7 +23,7 @@ router.post("/raiseTickets", authMiddleware, authorizedRoles("user"), async (req
             return res.status(404).json({ success: false, message: "User not found" });
         }
 
-        const createdTicket = await complaints.create({ customerId: customerId, name, email, subject, message, serviceType });
+        const createdTicket = await complaints.create({ customerId: customerId, name, email, subject, message, serviceType, raisedDate: Date.now() });
        
         await sendMail(email, name, subject, message);
         await sendAdminMail(email, name, subject, message);

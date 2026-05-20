@@ -83,6 +83,25 @@ const data = {
       // ],
     },
     {
+      title: "Users",
+      url: "/Admin/Employee",
+      icon: <RobotIcon />,
+      // items: [
+      //   {
+      //     title: "Genesis",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Explorer",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Quantum",
+      //     url: "#",
+      //   },
+      // ],
+    },
+    {
       title: "AssignTask",
       url: "/Admin/Assigntask",
       icon: <BookOpenIcon />,
@@ -101,6 +120,25 @@ const data = {
       //   },
       //   {
       //     title: "Changelog",
+      //     url: "#",
+      //   },
+      // ],
+    },
+    {
+      title: "Add Service",
+      url: "/Admin/Employee",
+      icon: <RobotIcon />,
+      // items: [
+      //   {
+      //     title: "Genesis",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Explorer",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Quantum",
       //     url: "#",
       //   },
       // ],
