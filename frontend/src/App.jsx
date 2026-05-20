@@ -6,9 +6,8 @@ import { Routes, Route } from "react-router-dom";
 
 // this is for the user pages direction
 import UserDashboardPage from "./pages/user/dashboard/Page";
-import UserInprogressPage from "./pages/user/in-progress/Page";
-import UserPendingPage from "./pages/user/pending/Page";
-import UserRejectedPage from "./pages/user/rejected/Page";
+import UserRaiseComplainPage from "./pages/user/raisecomplaint/Page";
+import UserWorkServicePage from "./pages/user/work-service/Page";
 
 // this is for the admin pages direction
 import AdminDashboardPage from "./pages/admin/dashboard/Page";
@@ -25,9 +24,11 @@ function App() {
 
         {/* this is for user dashboard blocks */}
         <Route path={"/User/Dashboard"} element={<UserDashboardPage />} />
-        <Route path={"/User/Inprogress"} element={<UserInprogressPage />} />
-        <Route path={"/User/Pending"} element={<UserPendingPage />} />
-        <Route path={"/User/Rejected"} element={<UserRejectedPage />} />
+        <Route
+          path={"/User/RaiseComplaint"}
+          element={<UserRaiseComplainPage />}
+        />
+        <Route path={"/User/WorkService"} element={<UserWorkServicePage />} />
 
         {/* this is for admin dashboard blocks */}
         <Route path={"/Admin/Dashboard"} element={<AdminDashboardPage />} />

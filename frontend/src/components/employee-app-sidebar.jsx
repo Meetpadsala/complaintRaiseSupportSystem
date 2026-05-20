@@ -44,7 +44,7 @@ const data = {
   navMain: [
     {
       title: "All Complaint",
-      url: "/User/Dashboard",
+      // url: "/User/Dashboard",
       icon: <TerminalIcon />,
       isActive: true,
       // items: [
@@ -64,7 +64,7 @@ const data = {
     },
     {
       title: "Pending",
-      url: "/User/Pending",
+      // url: "/User/Pending",
       icon: <RobotIcon />,
       // items: [
       //   {
@@ -83,7 +83,7 @@ const data = {
     },
     {
       title: "Rejected",
-      url: "/User/Rejected",
+      // url: "/User/Rejected",
       icon: <BookOpenIcon />,
       // items: [
       //   {
@@ -111,7 +111,7 @@ const data = {
       items: [
         {
           title: "General",
-          url: "/User/Inprogress",
+          // url: "/User/Inprogress",
         },
         {
           title: "Team",

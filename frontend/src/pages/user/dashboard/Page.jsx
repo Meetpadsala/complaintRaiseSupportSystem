@@ -18,11 +18,9 @@ import {
 } from "../../../components/ui/sidebar";
 import { getRaisedComplaint } from "../../../services/user";
 import { useQuery } from "@tanstack/react-query";
-import { RaiseComplaintModal } from "../../../components/RaiseComplaintModal";
 
 export default function Page() {
   const [theme, setTheme] = useState(false);
-  const [complaintModalOpen, setComplaintModalOpen] = useState(false);
 
   const toggleTheme = () => {
     setTheme(!theme);
@@ -91,30 +89,81 @@ export default function Page() {
             </div>
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <div className="flex justify-between">
-              <div>All Complaints</div>
-              <button
-                onClick={() => setComplaintModalOpen(true)}
-                className={`px-4 py-2 rounded-md font-medium transition-colors ${
-                  theme
-                    ? "bg-blue-600 text-white hover:bg-blue-700"
-                    : "bg-blue-500 text-white hover:bg-blue-600"
-                }`}
-              >
-                Raise New Complaint
-              </button>
+            <div className="flex gap-5">
+              <article className="py-5 px-30 rounded-2xl bg-gray-300">
+                <div className="">
+                  <p>sumit</p>
+                  <p>sumit</p>
+                  <p>sumit</p>
+                </div>
+              </article>
+              <article className="py-5 px-30 rounded-2xl bg-gray-300">
+                <div>
+                  <p>sumit</p>
+                  <p>sumit</p>
+                  <p>sumit</p>
+                </div>
+              </article>
+              <article className="py-5 px-30 rounded-2xl bg-gray-300">
+                <div>
+                  <p>sumit</p>
+                  <p>sumit</p>
+                  <p>sumit</p>
+                </div>
+              </article>
             </div>
-            <div className="flex gap-5 flex-wrap">
-             
+            <div className="flex flex-1 flex-col gap-4 p-4 pt-0 bg-gray-300 rounded-2xl">
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="bg-gray-400 border-b-2 border-gray-500">
+                      <th className="px-4 py-3 text-left font-semibold text-gray-800">Name</th>
+                      <th className="px-4 py-3 text-left font-semibold text-gray-800">Email</th>
+                      <th className="px-4 py-3 text-left font-semibold text-gray-800">Subject</th>
+                      <th className="px-4 py-3 text-left font-semibold text-gray-800">Message</th>
+                      <th className="px-4 py-3 text-left font-semibold text-gray-800">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data && data.length > 0 ? (
+                      data.map((complaint, index) => (
+                        <tr
+                          key={index}
+                          className="border-b border-gray-400 hover:bg-gray-200 transition"
+                        >
+                          <td className="px-4 py-3 text-gray-700">{complaint.name}</td>
+                          <td className="px-4 py-3 text-gray-700">{complaint.email}</td>
+                          <td className="px-4 py-3 text-gray-700">{complaint.subject}</td>
+                          <td className="px-4 py-3 text-gray-700 truncate max-w-xs">{complaint.message}</td>
+                          <td className="px-4 py-3">
+                            <span
+                              className={`px-3 py-1 rounded-full text-sm font-medium ${
+                                complaint.status === "resolved"
+                                  ? "bg-green-200 text-green-800"
+                                  : complaint.status === "pending"
+                                  ? "bg-yellow-200 text-yellow-800"
+                                  : "bg-blue-200 text-blue-800"
+                              }`}
+                            >
+                              {complaint.status}
+                            </span>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5" className="px-4 py-8 text-center text-gray-600">
+                          No complaints found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </SidebarInset>
       </SidebarProvider>
-      <RaiseComplaintModal
-        open={complaintModalOpen}
-        onOpenChange={setComplaintModalOpen}
-        theme={theme}
-      />
     </div>
   );
 }

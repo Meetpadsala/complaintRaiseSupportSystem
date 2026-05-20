@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
-import {toast} from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
@@ -14,18 +14,23 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import {
-  RowsIcon,
-  WaveformIcon,
-  CommandIcon,
-  TerminalIcon,
-  RobotIcon,
+  // RowsIcon,
+  // WaveformIcon,
+  // CommandIcon,
+  // TerminalIcon,
+  // RobotIcon,
   BookOpenIcon,
   GearIcon,
   CropIcon,
   ChartPieIcon,
   MapTrifoldIcon,
 } from "@phosphor-icons/react";
-import { ShieldAlert } from "lucide-react";
+import {
+  ShieldAlert,
+  LayoutDashboard,
+  MessageSquareWarning,
+  BriefcaseBusiness,
+} from "lucide-react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { userLogout, getRaisedComplaint } from "../services/user";
 // This is sample data.
@@ -46,7 +51,7 @@ const data = {
     {
       title: "Dashboard",
       url: "/User/Dashboard",
-      icon: <TerminalIcon />,
+      icon: <LayoutDashboard />,
       isActive: true,
       // items: [
       //   {
@@ -65,8 +70,8 @@ const data = {
     },
     {
       title: "Raise Complaints",
-      url: "/User/Pending",
-      icon: <RobotIcon />,
+      url: "/User/RaiseComplaint",
+      icon: <MessageSquareWarning />,
       // items: [
       //   {
       //     title: "Genesis",
@@ -83,9 +88,9 @@ const data = {
       // ],
     },
     {
-      title: "Rejected",
-      url: "/User/Rejected",
-      icon: <BookOpenIcon />,
+      title: "Work Services",
+      url: "/User/WorkService",
+      icon: <BriefcaseBusiness />,
       // items: [
       //   {
       //     title: "Introduction",
@@ -104,52 +109,6 @@ const data = {
       //     url: "#",
       //   },
       // ],
-    },
-    {
-      title: "In-progress",
-      url: "#",
-      icon: <GearIcon />,
-      items: [
-        {
-          title: "General",
-          url: "/User/Inprogress",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Completed ",
-      url: "#",
-      icon: <GearIcon />,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
     },
   ],
   projects: [
@@ -202,7 +161,7 @@ export function AppSidebar({ ...props }) {
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} onLogout={()=> logoutMutation.mutate()} />
+        <NavUser user={data.user} onLogout={() => logoutMutation.mutate()} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

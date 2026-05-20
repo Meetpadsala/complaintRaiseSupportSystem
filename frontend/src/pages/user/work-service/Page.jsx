@@ -74,11 +74,11 @@ export default function Page() {
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
+                  <BreadcrumbItem>  
                     <BreadcrumbPage
                       className={`${theme ? "text-gray-400 hover:text-gray-100" : "text-gray-400 hover:text-black"}`}
                     >
-                      Overview
+                      All Work Service
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                   <BreadcrumbItem>
