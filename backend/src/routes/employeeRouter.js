@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
     res.send("hey it's working right now");
 })
 
-router.post("/createEmployee", async (req, res) => {
+router.post("/create", async (req, res) => {
     try {
         const { name, email, password, confirmPassword } = req.body;
 
@@ -25,13 +25,13 @@ router.post("/createEmployee", async (req, res) => {
             return res.status(401).json({ message: false, message: "passowrd is not match" })
         }
 
-        const salt = await bcrypt.salt(10);
+        const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
 
         const employee = await userModel.create({
             name,
             email,
-            role: "employye",
+            role: "employee",
             password: hash
         })
 

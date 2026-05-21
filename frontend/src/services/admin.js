@@ -72,3 +72,13 @@ export const showUser = async () => {
     throw error;
   }
 }
+
+export const showEmployee = async () => {
+  try {
+    const response = await api.get("/admin/showEmployee");
+    return response.data;
+  } catch (error) {
+    console.log("Failed to show employee:", error.response?.status);
+    throw error;
+  }
+}

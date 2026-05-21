@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { AppSidebar } from "../../../components/admin-app-sidebar";
 import {
@@ -19,15 +19,11 @@ import {
 import { getRaisedComplaint } from "../../../services/user";
 import { showUser } from "../../../services/admin";
 import { useQuery } from "@tanstack/react-query";
-import { RaiseComplaintModal } from "../../../components/RaiseComplaintModal";
 
 export default function Page() {
   const [theme, setTheme] = useState(false);
-  const [complaintModalOpen, setComplaintModalOpen] = useState(false);
 
-  const toggleTheme = () => {
-    setTheme(!theme);
-  };
+  const toggleTheme = () => setTheme((currentTheme) => !currentTheme);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -51,34 +47,77 @@ export default function Page() {
     queryFn: getRaisedComplaint,
   });
 
-  // console.log(data)
-
   const { data: data1 } = useQuery({
     queryKey: ["showUserToAdmin"],
     queryFn: showUser,
   });
 
-  console.log(data1);
-  // console.log(data1?.result?.map((complaints) => complaints.customerId?.email));
+  const users = data1?.result || [];
+  const complaints = data?.result || [];
+
+  const pageTheme = theme
+    ? {
+        shell: "bg-slate-950 text-slate-100",
+        panel: "border-slate-800 bg-slate-900/70 text-slate-100",
+        muted: "text-slate-400",
+        border: "border-slate-800",
+        button: "border-slate-700 text-slate-100 hover:bg-slate-800",
+        header: "bg-slate-900/90",
+        tableHead: "bg-slate-900 text-slate-200",
+        tableRow: "border-slate-800 hover:bg-slate-800/40",
+      }
+    : {
+        shell: "bg-slate-50 text-slate-900",
+        panel: "border-slate-200 bg-white text-slate-900",
+        muted: "text-slate-500",
+        border: "border-slate-200",
+        button: "border-slate-300 text-slate-900 hover:bg-slate-100",
+        header: "bg-white/90",
+        tableHead: "bg-slate-100 text-slate-700",
+        tableRow: "border-slate-200 hover:bg-slate-50",
+      };
+
+  const getStatusBadgeClass = (count) => {
+    if (count > 0) {
+      return theme
+        ? "bg-amber-500/15 text-amber-300"
+        : "bg-amber-100 text-amber-700";
+    }
+
+    return theme ? "bg-emerald-500/15 text-emerald-300" : "bg-emerald-100 text-emerald-700";
+  };
+
+  const stats = [
+    {
+      label: "Total users",
+      value: users.length,
+      detail: "Registered customers",
+    },
+    {
+      label: "Total complaints",
+      value: complaints.length,
+      detail: "All raised tickets",
+    },
+    {
+      label: "Users with complaints",
+      value: users.filter((user) => (user?.complaints || []).length > 0).length,
+      detail: "Active support cases",
+    },
+    {
+      label: "Complaint-free users",
+      value: users.filter((user) => (user?.complaints || []).length === 0).length,
+      detail: "No open tickets",
+    },
+  ];
 
   return (
-    <div
-      className={theme ? "dark bg-black text-white" : "bg-white text-black"}
-      style={{
-        minHeight: "100vh",
-        backgroundColor: theme ? "#000000" : "#ffffff",
-        color: theme ? "#ffffff" : "#000000",
-      }}
-    >
-      <SidebarProvider
-        style={{ backgroundColor: theme ? "#000000" : "#ffffff" }}
-      >
+    <div className={`${pageTheme.shell} min-h-screen`}>
+      <SidebarProvider style={{ backgroundColor: "transparent" }}>
         <AppSidebar />
-        <SidebarInset
-          style={{ backgroundColor: theme ? "#000000" : "#ffffff" }}
-        >
-          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-            <div className="flex items-center gap-2 px-4">
+        <SidebarInset style={{ backgroundColor: "transparent" }}>
+          <header className={`sticky top-0 z-10 border-b ${pageTheme.border} ${pageTheme.header} backdrop-blur`}>
+            <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-4">
+              <div className="flex items-center gap-2">
               <SidebarTrigger className="-ml-1" />
               <Separator
                 orientation="vertical"
@@ -88,7 +127,7 @@ export default function Page() {
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block">
                     <BreadcrumbLink
-                      className={`${theme ? "text-gray-400 hover:text-gray-100" : "text-gray-400 hover:text-black"}`}
+                      className={`${pageTheme.muted} transition-colors hover:text-current`}
                       href="#"
                     >
                       Admin dashboard
@@ -97,60 +136,110 @@ export default function Page() {
                   <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>
                     <BreadcrumbPage
-                      className={`${theme ? "text-gray-400 hover:text-gray-100" : "text-gray-400 hover:text-black"}`}
+                      className={pageTheme.muted}
                     >
                       Users
                     </BreadcrumbPage>
                   </BreadcrumbItem>
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>
-                      <button
-                        className={`border-2 p-1 rounded-md  ${theme ? "text-white border-white" : "text-black border-black hover:bg-gray-200 hover:border-gray-300"}`}
-                        onClick={toggleTheme}
-                      >
-                        {theme ? <Moon /> : <Sun />}
-                      </button>
-                    </BreadcrumbPage>
-                  </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
+              </div>
+
+              <button
+                type="button"
+                aria-label="Toggle theme"
+                className={`inline-flex h-10 w-10 items-center justify-center rounded-md border transition-colors ${pageTheme.button}`}
+                onClick={toggleTheme}
+              >
+                {theme ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+              </button>
             </div>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <div className="">
-              <article>
-                <h4>users</h4>
-                {/* {data1?.result?.map((user) => user))length} */}
-              </article>
-            </div>
-            <div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>name</th>
-                    <th>email</th>
-                    <th>complaints</th>
-                  </tr>
-                </thead>
-                {/* <tbody>
-                  {data1?.result?.map((user) => user)).map((user) => (
-                    <tr key={user._id}>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>{2}</td>
+          <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 p-4 lg:p-6">
+            <section className={`rounded-2xl border ${pageTheme.border} ${pageTheme.panel} p-6 shadow-sm`}>
+              <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                <div className="space-y-2">
+                  <p className={`text-sm font-medium uppercase tracking-[0.2em] ${pageTheme.muted}`}>
+                    User management
+                  </p>
+                  <h1 className="text-2xl font-semibold md:text-3xl">
+                    Users overview
+                  </h1>
+                  <p className={`max-w-2xl text-sm leading-6 ${pageTheme.muted}`}>
+                    Review registered users and how many complaints are attached to each account.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              {stats.map((stat) => (
+                <article
+                  key={stat.label}
+                  className={`rounded-2xl border ${pageTheme.border} ${pageTheme.panel} p-5 shadow-sm`}
+                >
+                  <p className={`text-sm ${pageTheme.muted}`}>{stat.label}</p>
+                  <div className="mt-3 flex items-end justify-between gap-3">
+                    <h2 className="text-3xl font-semibold">{stat.value}</h2>
+                    <span className={`text-xs ${pageTheme.muted}`}>{stat.detail}</span>
+                  </div>
+                </article>
+              ))}
+            </section>
+
+            <section className={`overflow-hidden rounded-2xl border ${pageTheme.border} ${pageTheme.panel} shadow-sm`}>
+              <div className={`flex items-center justify-between gap-3 border-b px-5 py-4 ${pageTheme.border}`}>
+                <div>
+                  <h2 className="text-lg font-semibold">Registered users</h2>
+                  <p className={`text-sm ${pageTheme.muted}`}>
+                    {users.length} user{users.length === 1 ? "" : "s"} loaded from the admin API
+                  </p>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="min-w-full border-separate border-spacing-0 text-left text-sm">
+                  <thead className={pageTheme.tableHead}>
+                    <tr>
+                      <th className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}>Name</th>
+                      <th className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}>Email</th>
+                      <th className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}>Complaints</th>
+                      <th className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}>Status</th>
                     </tr>
-                  ))}
-                </tbody> */}
-              </table>
-            </div>
+                  </thead>
+
+                  <tbody>
+                    {users.length === 0 ? (
+                      <tr>
+                        <td colSpan={4} className="px-5 py-10 text-center">
+                          No users found.
+                        </td>
+                      </tr>
+                    ) : (
+                      users.map((user) => {
+                        const complaintCount = (user?.complaints || []).length;
+
+                        return (
+                          <tr key={user?._id || user?.email} className={`transition-colors ${pageTheme.tableRow}`}>
+                            <td className={`border-b px-5 py-4 ${pageTheme.border}`}>{user?.name || "-"}</td>
+                            <td className={`border-b px-5 py-4 ${pageTheme.border}`}>{user?.email || "-"}</td>
+                            <td className={`border-b px-5 py-4 ${pageTheme.border}`}>{complaintCount}</td>
+                            <td className={`border-b px-5 py-4 ${pageTheme.border}`}>
+                              <span className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${getStatusBadgeClass(complaintCount)}`}>
+                                {complaintCount > 0 ? "Has complaints" : "Clear"}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </section>
           </div>
         </SidebarInset>
       </SidebarProvider>
-      <RaiseComplaintModal
-        open={complaintModalOpen}
-        onOpenChange={setComplaintModalOpen}
-        theme={theme}
-      />
     </div>
   );
 }

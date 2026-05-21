@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { AppSidebar } from "../../../components/admin-app-sidebar";
 import {
@@ -18,14 +18,62 @@ import {
 } from "../../../components/ui/sidebar";
 import { getRaisedComplaint } from "../../../services/user";
 import { useQuery } from "@tanstack/react-query";
-import { RaiseComplaintModal } from "../../../components/RaiseComplaintModal";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "../../../components/ui/sheet";
 
 export default function Page() {
   const [theme, setTheme] = useState(false);
-  const [complaintModalOpen, setComplaintModalOpen] = useState(false);
+  const [employeeModalOpen, setEmployeeModalOpen] = useState(false);
+  const [employeeForm, setEmployeeForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const summaryCards = [
+    { label: "Total employees", value: "24", detail: "+3 this week" },
+    { label: "Active tasks", value: "18", detail: "6 waiting review" },
+    { label: "Completed", value: "12", detail: "Last updated today" },
+  ];
+
+  const employees = [
+    {
+      name: "Chaudhary Sumit",
+      email: "sumit@gmail.com",
+      joinDate: "11-11-2031",
+      tasks: "Yes",
+    },
+  ];
 
   const toggleTheme = () => {
     setTheme(!theme);
+  };
+
+  const handleEmployeeChange = (event) => {
+    const { name, value } = event.target;
+    setEmployeeForm((currentForm) => ({
+      ...currentForm,
+      [name]: value,
+    }));
+  };
+
+  const handleEmployeeSubmit = (event) => {
+    event.preventDefault();
+    setEmployeeModalOpen(false);
+    setEmployeeForm({
+      name: "",
+      email: "",
+      joinDate: "",
+      taskStatus: "",
+    });
   };
 
   useEffect(() => {
@@ -50,71 +98,308 @@ export default function Page() {
     queryFn: getRaisedComplaint,
   });
 
-  // console.log(data)
+  const pageTheme = theme
+    ? {
+        shell: "bg-slate-950 text-slate-100",
+        panel: "border-slate-800 bg-slate-900/70 text-slate-100",
+        muted: "text-slate-400",
+        border: "border-slate-800",
+        button: "border-slate-700 text-slate-100 hover:bg-slate-800",
+        header: "bg-slate-900/90",
+        tableRow: "border-slate-800 hover:bg-slate-800/50",
+      }
+    : {
+        shell: "bg-slate-50 text-slate-900",
+        panel: "border-slate-200 bg-white text-slate-900",
+        muted: "text-slate-500",
+        border: "border-slate-200",
+        button: "border-slate-300 text-slate-900 hover:bg-slate-100",
+        header: "bg-white/90",
+        tableRow: "border-slate-200 hover:bg-slate-50",
+      };
 
   return (
-    <div
-      className={theme ? "dark bg-black text-white" : "bg-white text-black"}
-      style={{
-        minHeight: "100vh",
-        backgroundColor: theme ? "#000000" : "#ffffff",
-        color: theme ? "#ffffff" : "#000000",
-      }}
-    >
-      <SidebarProvider
-        style={{ backgroundColor: theme ? "#000000" : "#ffffff" }}
-      >
+    <div className={`${pageTheme.shell} min-h-screen`}>
+      <SidebarProvider style={{ backgroundColor: "transparent" }}>
         <AppSidebar />
-        <SidebarInset
-          style={{ backgroundColor: theme ? "#000000" : "#ffffff" }}
-        >
-          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-            <div className="flex items-center gap-2 px-4">
-              <SidebarTrigger className="-ml-1" />
-              <Separator
-                orientation="vertical"
-                className="mr-2 data-[orientation=vertical]:h-4"
-              />
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink
-                      className={`${theme ? "text-gray-400 hover:text-gray-100" : "text-gray-400 hover:text-black"}`}
-                      href="#"
-                    >
-                      Customer dashboard
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage
-                      className={`${theme ? "text-gray-400 hover:text-gray-100" : "text-gray-400 hover:text-black"}`}
-                    >
-                      Overview
-                    </BreadcrumbPage>
-                  </BreadcrumbItem>
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>
-                      <button
-                        className={`border-2 p-1 rounded-md  ${theme ? "text-white border-white" : "text-black border-black hover:bg-gray-200 hover:border-gray-300"}`}
-                        onClick={toggleTheme}
+        <SidebarInset style={{ backgroundColor: "transparent" }}>
+          <header
+            className={`sticky top-0 z-10 border-b ${pageTheme.border} ${pageTheme.header} backdrop-blur`}
+          >
+            <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-4">
+              <div className="flex items-center gap-2">
+                <SidebarTrigger className="-ml-1" />
+                <Separator
+                  orientation="vertical"
+                  className="mr-2 data-[orientation=vertical]:h-4"
+                />
+                <Breadcrumb>
+                  <BreadcrumbList>
+                    <BreadcrumbItem className="hidden md:block">
+                      <BreadcrumbLink
+                        className={`${pageTheme.muted} transition-colors hover:text-current`}
+                        href="#"
                       >
-                        {theme ? <Moon /> : <Sun />}
-                      </button>
-                    </BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
+                        Admin dashboard
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator className="hidden md:block" />
+                    <BreadcrumbItem>
+                      <BreadcrumbPage className={pageTheme.muted}>
+                        Employee
+                      </BreadcrumbPage>
+                    </BreadcrumbItem>
+                  </BreadcrumbList>
+                </Breadcrumb>
+              </div>
+
+              <button
+                type="button"
+                aria-label="Toggle theme"
+                className={`inline-flex h-10 w-10 items-center justify-center rounded-md border transition-colors ${pageTheme.button}`}
+                onClick={toggleTheme}
+              >
+                {theme ? (
+                  <Moon className="h-4 w-4" />
+                ) : (
+                  <Sun className="h-4 w-4" />
+                )}
+              </button>
             </div>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0"></div>
+          <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 p-4 lg:p-6">
+            <section
+              className={`rounded-2xl border ${pageTheme.border} ${pageTheme.panel} p-6 shadow-sm`}
+            >
+              <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                <div className="space-y-2">
+                  <p
+                    className={`text-sm font-medium uppercase tracking-[0.2em] ${pageTheme.muted}`}
+                  >
+                    Employee management
+                  </p>
+                  <h1 className="text-2xl font-semibold md:text-3xl">
+                    Employee list
+                  </h1>
+                  <p
+                    className={`max-w-2xl text-sm leading-6 ${pageTheme.muted}`}
+                  >
+                    Review employee records, track progress, and keep the team
+                    roster organized from one place.
+                  </p>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setEmployeeModalOpen(true)}
+                    className={`rounded-md border px-4 py-2 text-sm font-medium transition-colors ${pageTheme.button}`}
+                  >
+                    Add employee
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <section className="grid gap-4 md:grid-cols-3">
+              {summaryCards.map((card) => (
+                <article
+                  key={card.label}
+                  className={`rounded-2xl border ${pageTheme.border} ${pageTheme.panel} p-5 shadow-sm`}
+                >
+                  <p className={`text-sm ${pageTheme.muted}`}>{card.label}</p>
+                  <div className="mt-3 flex items-end justify-between gap-3">
+                    <h2 className="text-3xl font-semibold">{card.value}</h2>
+                    <span className={`text-xs ${pageTheme.muted}`}>
+                      {card.detail}
+                    </span>
+                  </div>
+                </article>
+              ))}
+            </section>
+
+            <section
+              className={`overflow-hidden rounded-2xl border ${pageTheme.border} ${pageTheme.panel} shadow-sm`}
+            >
+              <div
+                className={`flex items-center justify-between gap-3 border-b px-5 py-4 ${pageTheme.border}`}
+              >
+                <div>
+                  <h2 className="text-lg font-semibold">Team roster</h2>
+                  <p className={`text-sm ${pageTheme.muted}`}>
+                    {Array.isArray(data)
+                      ? `${data.length} synced records available`
+                      : "Structured view of the current team list"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="min-w-full border-separate border-spacing-0 text-left text-sm">
+                  <thead className={pageTheme.header}>
+                    <tr>
+                      <th
+                        className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}
+                      >
+                        Name
+                      </th>
+                      <th
+                        className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}
+                      >
+                        Email
+                      </th>
+                      <th
+                        className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}
+                      >
+                        Join date
+                      </th>
+                      <th
+                        className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}
+                      >
+                        Completed task
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {employees.map((employee) => (
+                      <tr
+                        key={`${employee.email}-${employee.joinDate}`}
+                        className={`transition-colors ${pageTheme.tableRow}`}
+                      >
+                        <td
+                          className={`border-b px-5 py-4 ${pageTheme.border}`}
+                        >
+                          {employee.name}
+                        </td>
+                        <td
+                          className={`border-b px-5 py-4 ${pageTheme.border}`}
+                        >
+                          {employee.email}
+                        </td>
+                        <td
+                          className={`border-b px-5 py-4 ${pageTheme.border}`}
+                        >
+                          {employee.joinDate}
+                        </td>
+                        <td
+                          className={`border-b px-5 py-4 ${pageTheme.border}`}
+                        >
+                          {employee.tasks}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
         </SidebarInset>
       </SidebarProvider>
-      <RaiseComplaintModal
-        open={complaintModalOpen}
-        onOpenChange={setComplaintModalOpen}
-        theme={theme}
-      />
+      <Sheet open={employeeModalOpen} onOpenChange={setEmployeeModalOpen}>
+        <SheetContent
+          side="right"
+          className={`w-full sm:max-w-md ${
+            theme
+              ? "border-slate-700 bg-slate-950 text-slate-100"
+              : "border-slate-200 bg-white text-slate-900"
+          }`}
+        >
+          <SheetHeader className="border-b px-6 pb-4 pt-6">
+            <SheetTitle className={theme ? "text-slate-100" : "text-slate-900"}>
+              Add employee
+            </SheetTitle>
+            <SheetDescription
+              className={theme ? "text-slate-400" : "text-slate-500"}
+            >
+              Capture the employee details before adding them to the roster.
+            </SheetDescription>
+          </SheetHeader>
+
+          <form
+            onSubmit={handleEmployeeSubmit}
+            className="flex flex-1 flex-col gap-4 px-6 py-6"
+          >
+            <label className="space-y-2 text-sm font-medium">
+              name
+              <Input
+                name="name"
+                value={employeeForm.name}
+                onChange={handleEmployeeChange}
+                placeholder="Enter employee name"
+                className={
+                  theme
+                    ? "border-slate-700 bg-slate-900 text-slate-100 placeholder:text-slate-500"
+                    : "border-slate-300 bg-white text-slate-900 placeholder:text-slate-400"
+                }
+              />
+            </label>
+
+            <label className="space-y-2 text-sm font-medium">
+              Email
+              <Input
+                name="email"
+                type="email"
+                value={employeeForm.email}
+                onChange={handleEmployeeChange}
+                placeholder="employee@company.com"
+                className={
+                  theme
+                    ? "border-slate-700 bg-slate-900 text-slate-100 placeholder:text-slate-500"
+                    : "border-slate-300 bg-white text-slate-900 placeholder:text-slate-400"
+                }
+              />
+            </label>
+
+            <label className="space-y-2 text-sm font-medium">
+              Password
+              <Input
+                name="joinDate"
+                type="password"
+                value={employeeForm.joinDate}
+                onChange={handleEmployeeChange}
+                className={
+                  theme
+                    ? "border-slate-700 bg-slate-900 text-slate-100"
+                    : "border-slate-300 bg-white text-slate-900"
+                }
+              />
+            </label>
+
+            <label className="space-y-2 text-sm font-medium">
+              Confirmed Passowrd
+              <Input
+                name="taskStatus"
+                type="password"
+                value={employeeForm.taskStatus}
+                onChange={handleEmployeeChange}
+                placeholder="e.g. 6 completed"
+                className={
+                  theme
+                    ? "border-slate-700 bg-slate-900 text-slate-100 placeholder:text-slate-500"
+                    : "border-slate-300 bg-white text-slate-900 placeholder:text-slate-400"
+                }
+              />
+            </label>
+
+            <div className="mt-auto flex gap-3 pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setEmployeeModalOpen(false)}
+                className="flex-1"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                className="flex-1 bg-sky-600 text-white hover:bg-sky-700"
+              >
+                Save employee
+              </Button>
+            </div>
+          </form>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

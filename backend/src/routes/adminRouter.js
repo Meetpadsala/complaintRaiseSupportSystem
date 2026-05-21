@@ -65,4 +65,19 @@ router.get("/showUser", async (req, res) => {
     }
 })
 
+router.get("/showEmployee", async (req, res) => {
+    try {
+        const employee = await userModel.find({ role: "employee" }).populate("complaints");
+
+        if (!employee) {
+            res.status(401).json({ success: false, message: "hey employee is not found" });
+        }
+
+        res.status(200).json({ success: false, result: employee });
+    }
+    catch (error) {
+        res.status(500).json({ success: false, message: "Internal server error", error: error.message });
+    }
+})
+
 export default router

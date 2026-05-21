@@ -118,24 +118,58 @@ export default function Page() {
 
   const complaints = data?.result || [];
 
+  const summaryCards = [
+    {
+      label: "Total complaints",
+      value: complaints.length,
+      detail: "All tickets",
+    },
+    {
+      label: "Pending",
+      value: complaints.filter(
+        (item) => (item?.status || "Pending").toLowerCase() === "pending",
+      ).length,
+      detail: "Needs review",
+    },
+    {
+      label: "Resolved",
+      value: complaints.filter(
+        (item) => (item?.status || "").toLowerCase() === "resolved",
+      ).length,
+      detail: "Closed items",
+    },
+  ];
+
+  const pageTheme = theme
+    ? {
+        shell: "bg-slate-950 text-slate-100",
+        panel: "border-slate-800 bg-slate-900/70 text-slate-100",
+        muted: "text-slate-400",
+        border: "border-slate-800",
+        button: "border-slate-700 text-slate-100 hover:bg-slate-800",
+        header: "bg-slate-900/90",
+        tableHead: "bg-slate-900 text-slate-200",
+        tableRow: "border-slate-800 hover:bg-slate-800/40",
+      }
+    : {
+        shell: "bg-slate-50 text-slate-900",
+        panel: "border-slate-200 bg-white text-slate-900",
+        muted: "text-slate-500",
+        border: "border-slate-200",
+        button: "border-slate-300 text-slate-900 hover:bg-slate-100",
+        header: "bg-white/90",
+        tableHead: "bg-slate-100 text-slate-700",
+        tableRow: "border-slate-200 hover:bg-slate-50",
+      };
+
   return (
-    <div
-      className={theme ? "dark bg-black text-white" : "bg-white text-black"}
-      style={{
-        minHeight: "100vh",
-        backgroundColor: theme ? "#000000" : "#ffffff",
-        color: theme ? "#ffffff" : "#000000",
-      }}
-    >
-      <SidebarProvider
-        style={{ backgroundColor: theme ? "#000000" : "#ffffff" }}
-      >
+    <div className={`${pageTheme.shell} min-h-screen`}>
+      <SidebarProvider style={{ backgroundColor: "transparent" }}>
         <AppSidebar />
-        <SidebarInset
-          style={{ backgroundColor: theme ? "#000000" : "#ffffff" }}
-        >
-          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-            <div className="flex items-center gap-2 px-4">
+        <SidebarInset style={{ backgroundColor: "transparent" }}>
+          <header className={`sticky top-0 z-10 border-b ${pageTheme.border} ${pageTheme.header} backdrop-blur`}>
+            <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-4">
+              <div className="flex items-center gap-2">
               <SidebarTrigger className="-ml-1" />
               <Separator
                 orientation="vertical"
@@ -145,64 +179,104 @@ export default function Page() {
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block">
                     <BreadcrumbLink
-                      className={`${theme ? "text-gray-400 hover:text-gray-100" : "text-gray-400 hover:text-black"}`}
+                      className={`${pageTheme.muted} transition-colors hover:text-current`}
                       href="#"
                     >
-                      Customer dashboard
+                      Admin dashboard
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>
                     <BreadcrumbPage
-                      className={`${theme ? "text-gray-400 hover:text-gray-100" : "text-gray-400 hover:text-black"}`}
+                      className={pageTheme.muted}
                     >
-                      Overview
-                    </BreadcrumbPage>
-                  </BreadcrumbItem>
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>
-                      <button
-                        className={`border-2 p-1 rounded-md  ${theme ? "text-white border-white" : "text-black border-black hover:bg-gray-200 hover:border-gray-300"}`}
-                        onClick={toggleTheme}
-                      >
-                        {theme ? <Moon /> : <Sun />}
-                      </button>
+                      Complaints
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
+              </div>
+
+              <button
+                type="button"
+                aria-label="Toggle theme"
+                className={`inline-flex h-10 w-10 items-center justify-center rounded-md border transition-colors ${pageTheme.button}`}
+                onClick={toggleTheme}
+              >
+                {theme ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+              </button>
             </div>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <section>
-              <section className="p-5">
-                <table className="w-full border-collapse bg-white text-black">
-                  <thead>
-                    <tr className="bg-gray-100">
-                      <th className="text-left px-6 py-4 text-black">Name</th>
-                      <th className="text-left px-6 py-4 text-black">Email</th>
-                      <th className="text-left px-6 py-4 text-black">
-                        Subject
-                      </th>
-                      <th className="text-left px-6 py-4 text-black">
-                        Message
-                      </th>
-                      <th className="text-left px-6 py-4 text-black">Status</th>
-                      <th className="text-left px-6 py-4 text-black">Date</th>
-                      <th className="text-left px-6 py-4 text-black">Action</th>
+          <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 p-4 lg:p-6">
+            <section className={`rounded-2xl border ${pageTheme.border} ${pageTheme.panel} p-6 shadow-sm`}>
+              <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                <div className="space-y-2">
+                  <p className={`text-sm font-medium uppercase tracking-[0.2em] ${pageTheme.muted}`}>
+                    Complaint management
+                  </p>
+                  <h1 className="text-2xl font-semibold md:text-3xl">
+                    Complaints overview
+                  </h1>
+                  <p className={`max-w-2xl text-sm leading-6 ${pageTheme.muted}`}>
+                    Review incoming complaints, update statuses, and keep response tracking organized.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section className="grid gap-4 md:grid-cols-3">
+              {summaryCards.map((card) => (
+                <article
+                  key={card.label}
+                  className={`rounded-2xl border ${pageTheme.border} ${pageTheme.panel} p-5 shadow-sm`}
+                >
+                  <p className={`text-sm ${pageTheme.muted}`}>{card.label}</p>
+                  <div className="mt-3 flex items-end justify-between gap-3">
+                    <h2 className="text-3xl font-semibold">{card.value}</h2>
+                    <span className={`text-xs ${pageTheme.muted}`}>{card.detail}</span>
+                  </div>
+                </article>
+              ))}
+            </section>
+
+            <section className={`overflow-hidden rounded-2xl border ${pageTheme.border} ${pageTheme.panel} shadow-sm`}>
+              <div className={`flex items-center justify-between gap-3 border-b px-5 py-4 ${pageTheme.border}`}>
+                <div>
+                  <h2 className="text-lg font-semibold">Complaint table</h2>
+                  <p className={`text-sm ${pageTheme.muted}`}>
+                    {isLoading
+                      ? "Loading complaint records"
+                      : `${complaints.length} complaint${complaints.length === 1 ? "" : "s"} available`}
+                  </p>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="min-w-full border-separate border-spacing-0 text-left text-sm">
+                  <thead className={pageTheme.tableHead}>
+                    <tr>
+                      <th className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}>Name</th>
+                      <th className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}>Email</th>
+                      <th className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}>Subject</th>
+                      <th className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}>Message</th>
+                      <th className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}>Status</th>
+                      <th className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}>Date</th>
+                      <th className={`border-b px-5 py-3 font-medium ${pageTheme.border}`}>Action</th>
                     </tr>
                   </thead>
 
                   <tbody>
                     {isLoading ? (
                       <tr>
-                        <td colSpan={6} className="px-3 py-2 text-center">
-                          <Loader2 /> Loading...
+                        <td colSpan={7} className="px-5 py-10 text-center">
+                          <span className="inline-flex items-center gap-2">
+                            <Loader2 className="h-4 w-4 animate-spin" /> Loading...
+                          </span>
                         </td>
                       </tr>
                     ) : complaints.length === 0 ? (
                       <tr>
-                        <td colSpan={6} className="px-3 py-2 text-center">
+                        <td colSpan={7} className="px-5 py-10 text-center">
                           No complaints found.
                         </td>
                       </tr>
@@ -210,37 +284,23 @@ export default function Page() {
                       complaints.map((complaint) => (
                         <tr
                           key={complaint?._id || complaint?.email}
-                          className="border-b"
+                          className={`transition-colors ${pageTheme.tableRow}`}
                         >
-                          <td className="px-3 py-2">
-                            {complaint?.name || "-"}
-                          </td>
-                          <td className="px-3 py-2">
-                            {complaint?.email || "-"}
-                          </td>
-                          <td className="px-3 py-2">
-                            {complaint?.subject || "-"}
-                          </td>
-                          <td className="px-3 py-2">
-                            {complaint?.message || "-"}
-                          </td>
-                          <td className="px-3 py-2">
-                            <p
-                              className={`${getStatusBadgeClass(
-                                complaint?.status,
-                              )} inline-block whitespace-nowrap px-3 py-1 rounded-full text-sm`}
-                            >
+                          <td className={`border-b px-5 py-4 ${pageTheme.border}`}>{complaint?.name || "-"}</td>
+                          <td className={`border-b px-5 py-4 ${pageTheme.border}`}>{complaint?.email || "-"}</td>
+                          <td className={`border-b px-5 py-4 ${pageTheme.border}`}>{complaint?.subject || "-"}</td>
+                          <td className={`border-b px-5 py-4 ${pageTheme.border}`}>{complaint?.message || "-"}</td>
+                          <td className={`border-b px-5 py-4 ${pageTheme.border}`}>
+                            <p className={`${getStatusBadgeClass(complaint?.status)} inline-block whitespace-nowrap rounded-full px-3 py-1 text-sm`}>
                               {complaint?.status || "Pending"}
                             </p>
                           </td>
-                          <td className="px-3 py-2">
+                          <td className={`border-b px-5 py-4 ${pageTheme.border}`}>
                             {complaint?.createdAt
-                              ? new Date(
-                                  complaint.createdAt,
-                                ).toLocaleDateString()
+                              ? new Date(complaint.createdAt).toLocaleDateString()
                               : "-"}
                           </td>
-                          <td className="px-3 py-2">
+                          <td className={`border-b px-5 py-4 ${pageTheme.border}`}>
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
                                 <Button
@@ -248,13 +308,10 @@ export default function Page() {
                                   size="sm"
                                   className="rounded-lg"
                                 >
-                                  <EllipsisVertical />
+                                  <EllipsisVertical className="h-4 w-4" />
                                 </Button>
                               </DropdownMenuTrigger>
-                              <DropdownMenuContent
-                                className="w-40"
-                                align="start"
-                              >
+                              <DropdownMenuContent className="w-40" align="start">
                                 <DropdownMenuGroup>
                                   <DropdownMenuItem
                                     onClick={() =>
@@ -288,9 +345,7 @@ export default function Page() {
                                   </DropdownMenuItem>
                                   <DropdownMenuItem
                                     onClick={() =>
-                                      deleteComplaintMutation.mutate(
-                                        complaint?._id,
-                                      )
+                                      deleteComplaintMutation.mutate(complaint?._id)
                                     }
                                   >
                                     Delete
@@ -304,7 +359,7 @@ export default function Page() {
                     )}
                   </tbody>
                 </table>
-              </section>
+              </div>
             </section>
           </div>
         </SidebarInset>
