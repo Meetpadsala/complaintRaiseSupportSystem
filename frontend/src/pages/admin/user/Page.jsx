@@ -17,6 +17,7 @@ import {
   SidebarTrigger,
 } from "../../../components/ui/sidebar";
 import { getRaisedComplaint } from "../../../services/user";
+import { showUser } from "../../../services/admin";
 import { useQuery } from "@tanstack/react-query";
 import { RaiseComplaintModal } from "../../../components/RaiseComplaintModal";
 
@@ -52,6 +53,14 @@ export default function Page() {
 
   // console.log(data)
 
+  const { data: data1 } = useQuery({
+    queryKey: ["showUserToAdmin"],
+    queryFn: showUser,
+  });
+
+  console.log(data1);
+  // console.log(data1?.result?.map((complaints) => complaints.customerId?.email));
+
   return (
     <div
       className={theme ? "dark bg-black text-white" : "bg-white text-black"}
@@ -82,7 +91,7 @@ export default function Page() {
                       className={`${theme ? "text-gray-400 hover:text-gray-100" : "text-gray-400 hover:text-black"}`}
                       href="#"
                     >
-                      Customer dashboard
+                      Admin dashboard
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
@@ -90,7 +99,7 @@ export default function Page() {
                     <BreadcrumbPage
                       className={`${theme ? "text-gray-400 hover:text-gray-100" : "text-gray-400 hover:text-black"}`}
                     >
-                      Overview
+                      Users
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                   <BreadcrumbItem>
@@ -108,56 +117,31 @@ export default function Page() {
             </div>
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <div className="flex justify-between">
-              <div>All Complaints</div>
-              <button
-                onClick={() => setComplaintModalOpen(true)}
-                className={`px-4 py-2 rounded-md font-medium transition-colors ${
-                  theme
-                    ? "bg-blue-600 text-white hover:bg-blue-700"
-                    : "bg-blue-500 text-white hover:bg-blue-600"
-                }`}
-              >
-                Raise New Complaint
-              </button>
-            </div>
-            <div className="flex gap-5 flex-wrap">
-              <article className="">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {data?.result?.map((ticket) => (
-                    <div
-                      key={ticket._id}
-                      className={`rounded-lg shadow-sm hover:shadow-lg transition p-6 `}
-                    >
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h4 className="font-semibold text-lg mb-1">
-                            {ticket.subject}
-                          </h4>
-                          <p className="text-sm opacity-80">
-                            complaintPerson: {ticket.name}
-                          </p>
-                        </div>
-                        <span
-                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                            ticket.status === "Pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : ticket.status === "Resolved"
-                                ? "bg-green-100 text-green-800"
-                                : "bg-gray-100 text-gray-800"
-                          }`}
-                        >
-                          {ticket.status}
-                        </span>
-                      </div>
-                      <p className="mt-3 text-sm leading-relaxed whitespace-pre-line opacity-90">
-                        {ticket.message}
-                      </p>
-                      {/* <p>{ticket.)</p> */}
-                    </div>
-                  ))}
-                </div>
+            <div className="">
+              <article>
+                <h4>users</h4>
+                {/* {data1?.result?.map((user) => user))length} */}
               </article>
+            </div>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>email</th>
+                    <th>complaints</th>
+                  </tr>
+                </thead>
+                {/* <tbody>
+                  {data1?.result?.map((user) => user)).map((user) => (
+                    <tr key={user._id}>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>{2}</td>
+                    </tr>
+                  ))}
+                </tbody> */}
+              </table>
             </div>
           </div>
         </SidebarInset>

@@ -5,7 +5,7 @@ const complaintSchema = new mongoose.Schema(
     // customer who raised complaint
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user",
       required: true,
     },
 

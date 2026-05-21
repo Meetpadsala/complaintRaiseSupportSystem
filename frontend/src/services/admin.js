@@ -2,7 +2,7 @@ import api from "../lib/api.js";
 
 export const adminLogin = async ({ email, password }) => {
   try {
-    const response = await api.post("/auth/login", {
+    const response = await api.post("/admin/login", {
       email,
       password,
     });
@@ -57,6 +57,18 @@ export const deleteComplaint = async (id) => {
     return response.data;
   } catch (error) {
     console.log("Failed to delete complaint:", error.response?.status);
+    throw error;
+  }
+}
+
+// this is for show all registered user in admin dashboard
+
+export const showUser = async () => {
+  try {
+    const response = await api.get("/admin/showUser");
+    return response.data;
+  } catch (error) {
+    console.log("Failed to show user:", error.response?.status);
     throw error;
   }
 }

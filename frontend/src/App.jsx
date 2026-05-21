@@ -14,6 +14,7 @@ import AdminDashboardPage from "./pages/admin/dashboard/Page";
 import AdminAssignTaskPage from "./pages/admin/assign-task/Page";
 import AdminEmployeePage from "./pages/admin/employee/Page";
 import AdminUsersPage from "./pages/admin/user/Page";
+import AdminComplaintsPage from "./pages/admin/complaints/Page";
 import AdminAddServicePage from "./pages/admin/add-service/Page";
 
 
@@ -37,6 +38,7 @@ function App() {
         <Route path={"/Admin/Dashboard"} element={<AdminDashboardPage />} />
         <Route path={"/Admin/Employee"} element={<AdminEmployeePage />} />
         <Route path={"/Admin/Assigntask"} element={<AdminAssignTaskPage />} />
+        <Route path={"/Admin/Complaints"} element={<AdminComplaintsPage />} />
         <Route path={"/Admin/User"} element={<AdminUsersPage />} />
         <Route path={"/Admin/Addservice"} element={<AdminAddServicePage />} />
       </Routes>

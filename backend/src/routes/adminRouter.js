@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import userModel from "../model/userModel.js";
+// import complaints from "../model/complaints.js";
 
 const router = express.Router();
 
@@ -44,6 +45,23 @@ router.post("/login", async (req, res) => {
         // Need to log the error
         console.error(error);
         res.status(500).json({ success: false, message: "Internal server error" })
+    }
+})
+
+// this is routes for show user i   n admin dashboard
+
+router.get("/showUser", async (req, res) => {
+    try {
+        const user = await userModel.find({role: "user"}).populate("complaints");
+
+        if (!user) {
+            res.status(401).json({ success: false, message: "hey user is not found" });
+        }
+
+        res.status(200).json({ success: false, result: user })
+    }
+    catch (error) {
+        res.status(500).json({ success: false, message: "Internal server error", error: error.message });
     }
 })
 

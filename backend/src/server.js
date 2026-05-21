@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import adminRouter from "./routes/adminRouter.js";
 import index from "./routes/index.js";
 import userRouter from "./routes/userRouter.js";
+import employeeRoter from "./routes/employeeRouter.js"
 
 dotenv.config();
 const app = express();
@@ -30,9 +31,10 @@ app.get("/", (req, res) => {
     res.json("hey this is woking")
 })
 
-app.use("/api/auth", adminRouter);
+app.use("/api/admin", adminRouter);
 app.use("/api", index);
 app.use("/api/user", userRouter);
+app.use("/api/employee", employeeRoter);
 
 
 const start = async () => {

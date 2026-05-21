@@ -133,6 +133,10 @@ export default function Page() {
                         {ticket.status}
                       </span>
                     </div>
+                    <p>
+                      <span>raised date:</span>{" "}
+                      {new Date(ticket.raisedDate).toLocaleDateString()}
+                    </p>
                     <p className="mt-3 text-sm leading-relaxed whitespace-pre-line opacity-90">
                       {ticket.message}
                     </p>

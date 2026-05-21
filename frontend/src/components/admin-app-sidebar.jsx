@@ -64,39 +64,24 @@ const data = {
       // ],
     },
     {
-      title: "Employees",
-      url: "/Admin/Employee",
-      icon: <RobotIcon />,
+      title: "Complaint",
+      url: "/Admin/Complaints",
+      icon: <BookOpenIcon />,
       // items: [
       //   {
-      //     title: "Genesis",
+      //     title: "Introduction",
       //     url: "#",
       //   },
       //   {
-      //     title: "Explorer",
+      //     title: "Get Started",
       //     url: "#",
       //   },
       //   {
-      //     title: "Quantum",
-      //     url: "#",
-      //   },
-      // ],
-    },
-    {
-      title: "Users",
-      url: "/Admin/Employee",
-      icon: <RobotIcon />,
-      // items: [
-      //   {
-      //     title: "Genesis",
+      //     title: "Tutorials",
       //     url: "#",
       //   },
       //   {
-      //     title: "Explorer",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Quantum",
+      //     title: "Changelog",
       //     url: "#",
       //   },
       // ],
@@ -125,8 +110,46 @@ const data = {
       // ],
     },
     {
-      title: "Add Service",
+      title: "Employees",
       url: "/Admin/Employee",
+      icon: <RobotIcon />,
+      // items: [
+      //   {
+      //     title: "Genesis",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Explorer",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Quantum",
+      //     url: "#",
+      //   },
+      // ],
+    },
+    {
+      title: "Users",
+      url: "/Admin/User",
+      icon: <RobotIcon />,
+      // items: [
+      //   {
+      //     title: "Genesis",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Explorer",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Quantum",
+      //     url: "#",
+      //   },
+      // ],
+    },
+    {
+      title: "Add Service",
+      url: "/Admin/Addservice",
       icon: <RobotIcon />,
       // items: [
       //   {
