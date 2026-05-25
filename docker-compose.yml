@@ -24,8 +24,8 @@ services:
       depends_on:
         - mongodb
 
-      environment:
-        MONGO_URI: ${MONGO_URL}    
+      env_file:
+        - .env   
 
 
 volumes:
