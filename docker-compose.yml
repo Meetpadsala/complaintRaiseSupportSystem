@@ -1,5 +1,4 @@
 services:
-  web:
     mongodb:
       image: mongo
       container_name: mongodb
